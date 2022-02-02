@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/chart-js-and-d3/static/css/main.cbaedba9.css",
+    "main.js": "/chart-js-and-d3/static/js/main.aaac2a16.js",
+    "static/js/787.b1cd29d5.chunk.js": "/chart-js-and-d3/static/js/787.b1cd29d5.chunk.js",
+    "static/media/cars-sample.csv": "/chart-js-and-d3/static/media/cars-sample.24de09e00b6972fb1e29.csv",
+    "index.html": "/chart-js-and-d3/index.html",
+    "main.cbaedba9.css.map": "/chart-js-and-d3/static/css/main.cbaedba9.css.map",
+    "main.aaac2a16.js.map": "/chart-js-and-d3/static/js/main.aaac2a16.js.map",
+    "787.b1cd29d5.chunk.js.map": "/chart-js-and-d3/static/js/787.b1cd29d5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cbaedba9.css",
+    "static/js/main.aaac2a16.js"
+  ]
+}
