@@ -1,7 +1,7 @@
 {
   "name": "chartjs-and-d3",
   "version": "0.1.0",
-  "homepage": "https://a2.github.io/chartjs-and-d3/",
+  "homepage": "https://dacs30.github.io/chart-js-and-d3/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
