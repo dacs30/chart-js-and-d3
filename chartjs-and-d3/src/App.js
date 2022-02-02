@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
+import ScatterChart from './ScatterChart';
 
 function App() {
 
@@ -26,32 +27,17 @@ function App() {
   const [toyotaRadius, setToyotaRadius] = useState([]);
   const [hondaRadius, setHondaRadius] = useState([]);
 
-  const [bmwColor, setBmwColor] = useState([]);
-  const [fordColor, setFordColor] = useState([]);
-  const [mercedesColor, setMercedesColor] = useState([]);
-  const [toyotaColor, setToyotaColor] = useState([]);
-  const [hondaColor, setHondaColor] = useState([]);
-
-  // const [chartData, setChartData] = useState([{}]);
-  // const [chartRadius, setChartRadius] = useState([]); 
-  // const [chartColor, setChartColor] = useState([]);
-
-  // d3.csv(csv).then(data => {
-  //     setChartData(data.map(d => { return { x: d.Weight, y: d.MPG } }, []));
-  //   }
-  // );
+  const [csvDataArray, setCsvDataArray] = useState([]);
 
   ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
   const Chart = () => {
 
+    let array = d3.csv(csv).then(data => { data.map(d => { return d }) })
+
+    setCsvDataArray(array);
+
     d3.csv(csv).then(data => {
-      
-      // var array = data.map(d => { return { x: d.Weight, y: d.MPG } }, []);
-
-      // var weights = data.map(d => { return d.Weight * 0.002 }, []);
-
-      var array = [];
 
       var bmwDataSet = [];
       var fordDataSet = [];
@@ -65,50 +51,40 @@ function App() {
       var merecedesRadius = [];
       var toyotaRadius = [];
 
-      // var weights = [];
-      // var colors = [];
+      var array = [];
 
       data.forEach((data) => {
 
-        //weights.push(data.Weight * 0.002);
-        //array.push({ x: data.Weight, y: data.MPG });
-        
+        array.push(data);
+
         switch (data.Manufacturer) {
           case 'honda':
             hondaDataSet.push({ x: data.Weight, y: data.MPG });
             hondaRadius.push(data.Weight * 0.002);
-            //hondaColor.push(data.Color);
-            //colors.push('rgba(0, 191, 125, 0.5)');
             break;
           case 'toyota':
             toyotaDataSet.push({ x: data.Weight, y: data.MPG });
             toyotaRadius.push(data.Weight * 0.002);
-            //toyotaColor.push(data.Color);
-            //colors.push('rgba(231, 107, 243, 0.5)');
             break;
           case 'ford':
             fordDataSet.push({ x: data.Weight, y: data.MPG });
             fordRadius.push(data.Weight * 0.002);
-            //fordColor.push(data.Color);
-            //colors.push('rgba(163, 165, 0, 0.5)');
             break;
           case 'bmw':
             bmwDataSet.push({ x: data.Weight, y: data.MPG });
             bmwRadius.push(data.Weight * 0.002);
-            //bmwColor.push(data.Color);
-            //colors.push('rgba(248, 118, 109, 0.5)');
             break;
           case 'mercedes':
             merecedesDataSet.push({ x: data.Weight, y: data.MPG });
             merecedesRadius.push(data.Weight * 0.002);
-            //merecedesColor.push(data.Color);
-            //colors.push('rgba(0, 176, 246, 0.5)');
+            break;
+          default:
             break;
         }
 
       });
 
-      console.log("data", data);
+      setCsvDataArray(array);
 
       setBmwData(bmwDataSet);
       setFordData(fordDataSet);
@@ -121,12 +97,6 @@ function App() {
       setHondaRadius(hondaRadius);
       setMercedesRadius(merecedesRadius);
       setToyotaRadius(toyotaRadius);
-
-      // setChartData(array);
-
-      // setChartRadius(weights);
-
-      // setChartColor(colors);
 
     }).catch(err => {
       console.log(err);
@@ -224,6 +194,16 @@ function App() {
     ],
   };
 
+  const useD3 = (renderChartFn, dependencies) => {
+    const ref = React.useRef();
+
+    React.useEffect(() => {
+      renderChartFn(d3.select(ref.current));
+      return () => {};
+    }, dependencies);
+    return ref;
+  }
+
   useEffect(() => {
     Chart();
   }, []);
@@ -234,9 +214,12 @@ function App() {
       <div className="chart">
         <Scatter data={data} options={options} />
       </div>
+      <div>
+        <p>{`loaded cars ${csvDataArray.length}`}</p>
+      </div>
       <h1>D3 Chart</h1>
       <div className="chart">
-        some d3 here 
+        {csvDataArray.length > 0 ? <ScatterChart data={csvDataArray} /> : <p>Loading...</p>}
       </div>
     </div>
   );
